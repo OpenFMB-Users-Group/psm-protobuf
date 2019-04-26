@@ -1,0 +1,13 @@
+FROM rust:1.34
+
+WORKDIR /protobufs
+
+COPY protobuf/src protobuf/src/
+COPY proto/openfmb proto/openfmb/
+
+WORKDIR /protobufs/rust-prost-gen
+COPY rust-prost-gen/ .
+
+RUN cargo install --path .
+
+CMD ["rust-prost-gen"]

@@ -1,0 +1,12 @@
+[package]
+name = "rust-prost-gen"
+version = "0.1.0"
+authors = ["Dwayne Bradley <dwayne.bradley@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+bytes = "0.4.12"
+prost = "0.5.0"
+prost-types = "0.5.0"
+prost-build = { version = "0.5.0" }
+
