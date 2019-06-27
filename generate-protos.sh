@@ -18,6 +18,7 @@ fi
 # Environment variables used during protoc calls
 PROTOBUF_PATH=protobuf/src
 BASEPATH=proto/openfmb
+SRC_PATHS="$BASEPATH/*.proto $BASEPATH/**/*.proto"
 
 #########################################################
 # C++
@@ -25,7 +26,7 @@ BASEPATH=proto/openfmb
 
 OUTPUTPATH=gen/cpp/openfmb/
 clear_output_dir $OUTPUTPATH
-if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --cpp_out=$OUTPUTPATH $BASEPATH/**/*.proto ;
+if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --cpp_out=$OUTPUTPATH $SRC_PATHS ;
 then
   echo "Generated C++ protobuf files..."
 else
@@ -39,7 +40,7 @@ fi
 
 OUTPUTPATH=gen/java/
 clear_output_dir $OUTPUTPATH
-if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --java_out=$OUTPUTPATH $BASEPATH/**/*.proto ;
+if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --java_out=$OUTPUTPATH $SRC_PATHS ;
 then
   echo "Generated Java protobuf files..."
 else
@@ -53,7 +54,7 @@ fi
 
 OUTPUTPATH=gen/csharp/openfmb/
 clear_output_dir $OUTPUTPATH
-if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --csharp_out=$OUTPUTPATH $BASEPATH/**/*.proto ;
+if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --csharp_out=$OUTPUTPATH $SRC_PATHS ;
 then
   echo "Generated C# protobuf files..."
 else
@@ -67,7 +68,7 @@ fi
 
 OUTPUTPATH=gen/python/openfmb/
 clear_output_dir $OUTPUTPATH
-if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --python_out=$OUTPUTPATH $BASEPATH/**/*.proto ;
+if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --python_out=$OUTPUTPATH $SRC_PATHS ;
 then
   echo "Generated Python protobuf files..."
 else
