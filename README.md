@@ -7,6 +7,7 @@ This repository contains the Protocol Buffer (protobuf) definitions based on the
 There really is no need to generate programming language specific bindings yourself (unless you just really want to). Individual repositories exist for several programming languages which contain the output of the generation steps below. If you just want to use the OpenFMB protobuf definitions in your own project, please choose one of these repositories to get native support for your particular programming language:
 
 * C++ - https://gitlab.com/openfmb/psm/ops/protobuf/cpp-openfmb-ops-protobuf
+* Crystal - https://gitlab.com/openfmb/psm/ops/protobuf/crystal-openfmb-ops-protobuf
 * C# - https://gitlab.com/openfmb/psm/ops/protobuf/csharp-openfmb-ops-protobuf
 * Go - https://gitlab.com/openfmb/psm/ops/protobuf/go-openfmb-ops-protobuf
 * Java - https://gitlab.com/openfmb/psm/ops/protobuf/java-openfmb-ops-protobuf
@@ -28,6 +29,7 @@ In order to generate the language-specific bindings for OpenFMB protocol buffer 
 
 * `Dockerfile` (for most languages)
 * `Dockerfile.rust` (which is specific to Rust)
+* `Dockerfile.crystal` (which is specific to Crystal)
 
 Before continuing, install [Docker](https://docs.docker.com/install/) (or Docker alternative such as [Podman](https://podman.io)) according to your development platform of choice.
 
@@ -62,6 +64,20 @@ docker run --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos-rust
 ```
 
 After running these commands, you will have a new `/rust` subfolder in the `gen` folder of the current directory.
+
+### Dockerfile.crystal
+
+Using `Dockerfile.crystal` will only generate protobuf language bindings for the [Crystal](https://crystal-lang.org/) programming language.
+
+Run the following commands:
+
+```
+docker build -t openfmb-generate-protos-crystal -f Dockerfile.crystal .
+docker run --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos-crystal
+```
+
+After running these commands, you will have a new `/crystal` subfolder in the `gen` folder of the current directory.
+
 
 ### Note about the above Dockerfiles
 

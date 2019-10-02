@@ -1,0 +1,23 @@
+FROM crystallang/crystal:0.31.0
+
+RUN apt-get update && apt-get -y install unzip wget
+
+# Install protoc
+RUN wget https://github.com/protocolbuffers/protobuf/releases/download/v3.7.1/protoc-3.7.1-linux-x86_64.zip && \
+    unzip protoc-3.7.1-linux-x86_64.zip -d proto3 && \
+    mv proto3/bin/* /usr/local/bin/ && \
+    mv proto3/include/* /usr/local/include/
+
+# Install the Crystal protobuf generator
+RUN git clone https://github.com/jeromegn/protobuf.cr.git && \
+    cd protobuf.cr && \
+    crystal build bin/protoc-gen-crystal.cr -o /usr/local/bin/protoc-gen-crystal
+
+WORKDIR /protobufs
+
+COPY protobuf/src protobuf/src/
+COPY proto/openfmb proto/openfmb/
+COPY generate-protos-crystal.sh .
+RUN chmod 755 generate-protos-crystal.sh
+
+CMD ["/protobufs/generate-protos-crystal.sh"]

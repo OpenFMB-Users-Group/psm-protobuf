@@ -1,9 +1,4 @@
 rust-prost-gen/target
 rust-prost-gen/**/*.rs.bk
 
-/gen/cpp/*
-/gen/csharp/*
-/gen/java/*
-/gen/python/*
-/gen/go/*
-/gen/rust/*
+/gen/*
