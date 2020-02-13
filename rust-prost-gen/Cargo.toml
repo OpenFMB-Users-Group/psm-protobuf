@@ -5,8 +5,8 @@ authors = ["Dwayne Bradley <dwayne.bradley@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-bytes = "0.4.12"
-prost = "0.5.0"
-prost-types = "0.5.0"
-prost-build = { version = "0.5.0" }
+bytes = "0.5.4"
+prost = "0.6.1"
+prost-types = "0.6.1"
+prost-build = { version = "0.6.1" }
 
