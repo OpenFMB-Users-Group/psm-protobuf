@@ -24,7 +24,11 @@ SRC_PATHS="$BASEPATH/*.proto $BASEPATH/**/*.proto"
 # Crystal
 #########################################################
 
-OUTPUTPATH=gen/crystal/openfmb/
+# Delete the previously generated Crystal files
+rm -R gen/crystal-openfmb-ops-protobuf/openfmb/*
+
+# Generate the new Crystal files
+OUTPUTPATH=gen/crystal-openfmb-ops-protobuf/src/openfmb/
 clear_output_dir $OUTPUTPATH
 if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --crystal_out=$OUTPUTPATH $SRC_PATHS ;
 then

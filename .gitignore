@@ -1,4 +1,9 @@
 rust-prost-gen/target
 rust-prost-gen/**/*.rs.bk
-
-/gen/*
+gen/cpp-openfmb-ops-protobuf
+gen/crystal-openfmb-ops-protobuf
+gen/csharp-openfmb-ops-protobuf
+gen/go-openfmb-ops-protobuf
+gen/java-openfmb-ops-protobuf
+gen/python-openfmb-ops-protobuf
+gen/rust-openfmb-ops-protobuf

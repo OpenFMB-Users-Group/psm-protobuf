@@ -1,16 +1,17 @@
 # Protobuf generated output
 
-This folder will contain the output of the generated protobuf wrapper
-classes.
-
 The following subfolders will be created after running Dockerfile from the root folder:
 
-* cpp
-* csharp
-* go
-* java
-* python
+* cpp-openfmb-ops-protobuf
+* csharp-openfmb-ops-protobuf
+* go-openfmb-ops-protobuf
+* java-openfmb-ops-protobuf
+* python-openfmb-ops-protobuf
 
-The following subfolders will be created after running Dockerfile.rust from the root folder:
+The following subfolders will be updated after running Dockerfile.rust from the root folder:
 
-* rust
+* rust-openfmb-ops-protobuf
+
+The following subfolders will be updated after running Dockerfile.crystal from the root folder:
+
+* crystal-openfmb-ops-protobuf
