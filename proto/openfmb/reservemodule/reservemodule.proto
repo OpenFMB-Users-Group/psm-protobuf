@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+// OpenFMB Operational Model (61850-CIM) (v2.0.0).eap
+// Tuesday, April 27, 2021 7:07:08 PM UTC
+
+// This module is an early alpha release and subject to change. It is NOT part of the gateway test
+// procedure for OpenFMB certification.
+package reservemodule;
+option go_package = "gitlab.com/openfmb/psm/ops/protobuf/go-openfmb-ops-protobuf/v2/openfmb/reservemodule";
+option java_package = "openfmb.reservemodule";
+option java_multiple_files = true;
+option csharp_namespace = "openfmb.reservemodule";
+
+import "uml.proto";
+import "commonmodule/commonmodule.proto";
+
+// [OpenFMB LN extension] Reserve margin in A, W, VAr and VA.
+message ReserveMargin
+{
+    // UML inherited base object
+    commonmodule.LogicalNode logicalNode = 1 [(uml.option_parent_message) = true];
+    // Phase to ground/phase to neutral three phase currents.
+    commonmodule.PMG A = 2;
+    // Phase to ground/phase to neutral apparent powers S.
+    commonmodule.PMG VA = 3;
+    // Phase to ground/phase to neutral reactive powers Q.
+    commonmodule.PMG VAr = 4;
+    // Phase to ground/phase to neutral real powers P.
+    commonmodule.PMG W = 5;
+}
+
+// MISSING DOCUMENTATION!!!
+message ReserveAvailability
+{
+    // MISSING DOCUMENTATION!!!
+    ReserveMargin incrementalMargin = 1;
+    // MISSING DOCUMENTATION!!!
+    ReserveMargin margin = 2;
+    // MISSING DOCUMENTATION!!!
+    ReserveMargin standbyMargin = 3;
+}
+
+// MISSING DOCUMENTATION!!!
+message AllocatedMargin
+{
+    // MISSING DOCUMENTATION!!!
+    string requestID = 1 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    ReserveMargin allocatedMargin = 2;
+    // MISSING DOCUMENTATION!!!
+    ReserveMargin allocatedStandbyMargin = 3;
+}
+
+// Reserve availability profile
+message ReserveAvailabilityProfile
+{
+    option (uml.option_openfmb_profile) = true;
+    // UML inherited base object
+    commonmodule.ControlMessageInfo controlMessageInfo = 1 [(uml.option_parent_message) = true];
+    // MISSING DOCUMENTATION!!!
+    AllocatedMargin allocatedMargin = 2;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.ApplicationSystem requesterCircuitSegmentService = 3 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    ReserveAvailability reserveAvailability = 4 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    commonmodule.ApplicationSystem responderCircuitSegmentService = 5 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    commonmodule.ConductingEquipment tiePoint = 6 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+}
+
+// MISSING DOCUMENTATION!!!
+message ReserveRequest
+{
+    // MISSING DOCUMENTATION!!!
+    string requestID = 1 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    ReserveMargin margin = 2;
+    // MISSING DOCUMENTATION!!!
+    ReserveMargin standbyMargin = 3;
+}
+
+// Reserve availability profile
+message ReserveRequestProfile
+{
+    option (uml.option_openfmb_profile) = true;
+    // UML inherited base object
+    commonmodule.ControlMessageInfo controlMessageInfo = 1 [(uml.option_parent_message) = true];
+    // MISSING DOCUMENTATION!!!
+    commonmodule.ApplicationSystem requesterCircuitSegmentService = 2 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    ReserveRequest reserveRequest = 3 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    commonmodule.ApplicationSystem responderCircuitSegmentService = 4 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    commonmodule.ConductingEquipment tiePoint = 5 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+}
+

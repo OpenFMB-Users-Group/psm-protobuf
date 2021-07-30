@@ -24,7 +24,7 @@ SRC_PATHS="$BASEPATH/*.proto $BASEPATH/**/*.proto"
 # C++
 #########################################################
 
-OUTPUTPATH=gen/cpp/openfmb/
+OUTPUTPATH=gen/cpp-openfmb-ops-protobuf/openfmb/
 clear_output_dir $OUTPUTPATH
 if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --cpp_out=$OUTPUTPATH $SRC_PATHS ;
 then
@@ -38,8 +38,9 @@ fi
 # Java
 #########################################################
 
-OUTPUTPATH=gen/java/
+OUTPUTPATH=gen/java-openfmb-ops-protobuf/openfmb/
 clear_output_dir $OUTPUTPATH
+OUTPUTPATH=gen/java-openfmb-ops-protobuf/
 if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --java_out=$OUTPUTPATH $SRC_PATHS ;
 then
   echo "Generated Java protobuf files..."
@@ -52,7 +53,7 @@ fi
 # C#
 #########################################################
 
-OUTPUTPATH=gen/csharp/openfmb/
+OUTPUTPATH=gen/csharp-openfmb-ops-protobuf/openfmb/
 clear_output_dir $OUTPUTPATH
 if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --csharp_out=$OUTPUTPATH $SRC_PATHS ;
 then
@@ -66,7 +67,7 @@ fi
 # Python
 #########################################################
 
-OUTPUTPATH=gen/python/openfmb/
+OUTPUTPATH=gen/python-openfmb-ops-protobuf/openfmb/
 clear_output_dir $OUTPUTPATH
 if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --python_out=$OUTPUTPATH $SRC_PATHS ;
 then
@@ -87,14 +88,15 @@ if ! [ -x "$(command -v go)" ]; then
 fi
 
 # Make sure that we have the protobuf types for Go
-if go get github.com/golang/protobuf/ptypes ;
+if [ -n "$(find $GOPATH/pkg/mod/github.com/golang/ -name any.go)" ];
 then
   echo "Protobuf types for Go installed..."
 else
-  echo "Could not install protobuf types for Go!!!"
-  exit 
+  echo "Could not find protobuf types for Go!!! Go files not generated..."
+  exit 3
 fi
 
+# Generate the new Go files to a temporary folder
 OUTPUTPATH=gen/go/
 clear_output_dir $OUTPUTPATH
 # For Go, uml and commonmodule MUST be generated first at the present time.
@@ -104,33 +106,35 @@ clear_output_dir $OUTPUTPATH
 #protoc --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/**/*.proto
 if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/uml.proto ;
 then
-  echo "Generated Go protobuf files..."
+  echo "Generating Go protobuf files..."
 else
   echo "Go generation failed!!!"
   exit 2
 fi
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/commonmodule/commonmodule.proto
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/breakermodule/breakermodule.proto
+protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/capbankmodule/capbankmodule.proto
+protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/circuitsegmentservicemodule/circuitsegmentservicemodule.proto
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/essmodule/essmodule.proto
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/generationmodule/generationmodule.proto
+protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/interconnectionmodule/interconnectionmodule.proto
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/loadmodule/loadmodule.proto
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/metermodule/metermodule.proto
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/reclosermodule/reclosermodule.proto
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/regulatormodule/regulatormodule.proto
+protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/reservemodule/reservemodule.proto
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/resourcemodule/resourcemodule.proto
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/solarmodule/solarmodule.proto
 protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --go_out=$OUTPUTPATH $BASEPATH/switchmodule/switchmodule.proto
 
-# #########################################################
-# # Rust
-# #########################################################
+# Delete the old generated Go files
+OUTPUTPATH=gen/go-openfmb-ops-protobuf/v2/openfmb/
+clear_output_dir $OUTPUTPATH
 
-# # Make sure that rust is installed
-# if ! [ -x "$(command -v cargo)" ]; then
-#   echo 'Error: Rust language is not installed.' >&2
-#   exit 1
-# fi
+# Copy the generated Go files into the local folder
+cp -R gen/go/gitlab.com/openfmb/psm/ops/protobuf/go-openfmb-ops-protobuf/v2/openfmb/** gen/go-openfmb-ops-protobuf/v2/openfmb/
 
-# cd rust-prost-gen
-# cargo -q run
-# cd ..
+# Remove the generated gen/go/ folder
+rm -R gen/go/
+
+echo "Generating Go protobuf files...DONE"

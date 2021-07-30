@@ -10,7 +10,7 @@ use std::path::Path;
 fn main() {
     // Make sure the output directory is actually present or the run statement
     // below will panic with a "No such file or directory" error.
-    let output_directory = "../gen/rust/openfmb/";
+    let output_directory = "../gen/rust-openfmb-ops-protobuf/src/openfmb/";
     if Path::new(output_directory).exists() {
         let paths = fs::read_dir(output_directory).unwrap();
 

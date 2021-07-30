@@ -19,13 +19,11 @@ There really is no need to generate programming language specific bindings yours
 In order to generate language specific bindings, first clone this repository locally:
 
 ```
-git clone --recursive https://gitlab.com/openfmb/psm/ops/protobuf/openfmb-ops-protobuf.git
+git clone https://gitlab.com/openfmb/psm/ops/protobuf/openfmb-ops-protobuf.git
 cd openfmb-ops-protobuf
 ```
 
-Make sure to include the `--recursive` flag above as the actual protocol buffers source needs to be fetched as well for the code generation to work properly.
-
-In order to generate the language-specific bindings for OpenFMB protocol buffer definitions, two Dockerfiles have been provided:
+In order to generate the language-specific bindings for OpenFMB protocol buffer definitions, three Dockerfiles have been provided:
 
 * `Dockerfile` (for most languages)
 * `Dockerfile.rust` (which is specific to Rust)
@@ -46,8 +44,8 @@ Using `Dockerfile` will generate protobuf language bindings for the following pr
 Run the following commands:
 
 ```
-docker build -t openfmb-generate-protos -f Dockerfile .
-docker run --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos
+docker build -t openfmb-generate-protos:$(git branch --show-current) -f Dockerfile .
+docker run --user=$(id -u):$(id -g) --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos:$(git branch --show-current)
 ```
 
 After running these commands, you should have new subfolder for each of the above languages located in the `gen` folder of the current directory.
@@ -59,8 +57,8 @@ Using `Dockerfile.rust` will only generate protobuf language bindings for the [R
 Run the following commands:
 
 ```
-docker build -t openfmb-generate-protos-rust -f Dockerfile.rust .
-docker run --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos-rust
+docker build -t openfmb-generate-protos-rust:$(git branch --show-current) -f Dockerfile.rust .
+docker run --user=$(id -u):$(id -g) --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos-rust:$(git branch --show-current)
 ```
 
 After running these commands, you will have a new `/rust` subfolder in the `gen` folder of the current directory.
@@ -72,8 +70,8 @@ Using `Dockerfile.crystal` will only generate protobuf language bindings for the
 Run the following commands:
 
 ```
-docker build -t openfmb-generate-protos-crystal -f Dockerfile.crystal .
-docker run --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos-crystal
+docker build -t openfmb-generate-protos-crystal:$(git branch --show-current) -f Dockerfile.crystal .
+docker run --user=$(id -u):$(id -g) --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos-crystal:$(git branch --show-current)
 ```
 
 After running these commands, you will have a new `/crystal` subfolder in the `gen` folder of the current directory.
@@ -84,7 +82,7 @@ After running these commands, you will have a new `/crystal` subfolder in the `g
 Depending on how you install Docker (or a Docker alternative such as [Podman](https://podman.io)), you may need to add the `--privileged` flag to the `docker run` commands above so it can have the necessary permission to write the output files into the `$PWD/gen` volume mount. For example:
 
 ```
-docker run --rm --privileged -v $PWD/gen:/protobufs/gen openfmb-generate-protos-rust
+docker run --user=$(id -u):$(id -g) --rm --privileged -v $PWD/gen:/protobufs/gen openfmb-generate-protos-rust:$(git branch --show-current)
 ```
 
 ## Copyright

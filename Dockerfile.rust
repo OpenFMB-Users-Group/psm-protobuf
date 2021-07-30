@@ -1,8 +1,18 @@
-FROM rust:1.41
+FROM rust:1.51.0
+
+ENV PROTOBUF_VER=3.15.6
+
+WORKDIR /tmp
+
+# Install protobuf source
+RUN wget https://github.com/protocolbuffers/protobuf/archive/refs/tags/v${PROTOBUF_VER}.zip && \
+    unzip v${PROTOBUF_VER}.zip -d proto3_src && \
+    mkdir -p /protobufs/protobuf/ && \
+    mv proto3_src/protobuf-${PROTOBUF_VER}/src /protobufs/protobuf/
 
 WORKDIR /protobufs
 
-COPY protobuf/src protobuf/src/
+#COPY protobuf/src protobuf/src/
 COPY proto/openfmb proto/openfmb/
 
 WORKDIR /protobufs/rust-prost-gen
