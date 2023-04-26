@@ -78,6 +78,19 @@ else
 fi
 
 #########################################################
+# TypeScript
+#########################################################
+OUTPUTPATH=gen/typescript-openfmb-ops-protobuf/openfmb/
+clear_output_dir $OUTPUTPATH
+if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --plugin=protoc-gen-grpc-web=./protoc-gen-grpc-web  --js_out=import_style=commonjs:$OUTPUTPATH --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:$OUTPUTPATH $SRC_PATHS ;
+then
+  echo "Generated TypeScript protobuf files..."
+else
+  echo "TypeScript generation failed!!!"
+  exit 2
+fi
+
+#########################################################
 # Go
 #########################################################
 

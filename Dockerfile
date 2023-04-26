@@ -1,6 +1,7 @@
 FROM golang:1.16.3
 
 ENV PROTOBUF_VER=3.15.6
+ENV GRPCWEB_VER=1.4.2
 
 # Install protobuf types for Go
 RUN go get github.com/golang/protobuf/ptypes
@@ -19,6 +20,12 @@ RUN wget https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOB
     chmod +x /usr/local/bin/* && \
     mv proto3/include/* /usr/local/include/ && \
     chmod -R +r /usr/local/include
+
+# Install protoc-gen-grpc-web
+RUN wget -O protoc-gen-grpc-web https://github.com/grpc/grpc-web/releases/download/${GRPCWEB_VER}/protoc-gen-grpc-web-${GRPCWEB_VER}-linux-x86_64 && \
+    chmod +x ./protoc-gen-grpc-web && \
+    mkdir -p /protobufs && \
+    mv protoc-gen-grpc-web /protobufs/
 
 # Install protobuf source
 RUN wget https://github.com/protocolbuffers/protobuf/archive/refs/tags/v${PROTOBUF_VER}.zip && \
