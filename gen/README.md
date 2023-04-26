@@ -7,6 +7,7 @@ The following subfolders will be created after running Dockerfile from the root 
 * go-openfmb-ops-protobuf
 * java-openfmb-ops-protobuf
 * python-openfmb-ops-protobuf
+* typescript-openfmb-ops-protobuf
 
 The following subfolders will be updated after running Dockerfile.rust from the root folder:
 

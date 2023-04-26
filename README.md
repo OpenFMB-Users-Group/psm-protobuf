@@ -13,6 +13,7 @@ There really is no need to generate programming language specific bindings yours
 * Java - https://gitlab.com/openfmb/psm/ops/protobuf/java-openfmb-ops-protobuf
 * Python - https://gitlab.com/openfmb/psm/ops/protobuf/python-openfmb-ops-protobuf
 * Rust - https://gitlab.com/openfmb/psm/ops/protobuf/rust-openfmb-ops-protobuf
+* TypeScript - https://gitlab.com/openfmb/psm/ops/protobuf/typescript-openfmb-ops-protobuf
 
 ## Generating language-specific bindings
 
