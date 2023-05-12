@@ -1,13 +1,14 @@
-FROM golang:1.16.3
+FROM golang:1.20.3
 
-ENV PROTOBUF_VER=3.15.6
+ENV PROTOBUF_VER=22.3
 ENV GRPCWEB_VER=1.4.2
+ENV PROTOC_GEN_JS_VER=3.21.2
 
 # Install protobuf types for Go
-RUN go get github.com/golang/protobuf/ptypes
+#RUN go get github.com/golang/protobuf/ptypes
 
 # Install the protobuf compiler for Go
-RUN go get -u google.golang.org/protobuf/cmd/protoc-gen-go
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
 RUN apt-get update && apt-get -y install unzip
 
@@ -20,6 +21,12 @@ RUN wget https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOB
     chmod +x /usr/local/bin/* && \
     mv proto3/include/* /usr/local/include/ && \
     chmod -R +r /usr/local/include
+
+# Install protoc-gen-js
+RUN wget https://github.com/protocolbuffers/protobuf-javascript/releases/download/v${PROTOC_GEN_JS_VER}/protobuf-javascript-${PROTOC_GEN_JS_VER}-linux-x86_64.zip && \
+    unzip protobuf-javascript-${PROTOC_GEN_JS_VER}-linux-x86_64.zip -d protobuf-javascript && \
+    chmod +x protobuf-javascript/bin/protoc-gen-js && \
+    mv protobuf-javascript/bin/protoc-gen-js /usr/local/bin/
 
 # Install protoc-gen-grpc-web
 RUN wget -O protoc-gen-grpc-web https://github.com/grpc/grpc-web/releases/download/${GRPCWEB_VER}/protoc-gen-grpc-web-${GRPCWEB_VER}-linux-x86_64 && \

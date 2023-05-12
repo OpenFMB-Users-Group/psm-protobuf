@@ -1,5 +1,6 @@
 rust-prost-gen/target
 rust-prost-gen/**/*.rs.bk
+.elixir_ls
 
 gen/**
 !gen/README.md

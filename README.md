@@ -9,9 +9,12 @@ There really is no need to generate programming language specific bindings yours
 * C++ - https://gitlab.com/openfmb/psm/ops/protobuf/cpp-openfmb-ops-protobuf
 * Crystal - https://gitlab.com/openfmb/psm/ops/protobuf/crystal-openfmb-ops-protobuf
 * C# - https://gitlab.com/openfmb/psm/ops/protobuf/csharp-openfmb-ops-protobuf
+* Elixir - https://gitlab.com/openfmb/psm/ops/protobuf/elixir-openfmb-ops-protobuf
 * Go - https://gitlab.com/openfmb/psm/ops/protobuf/go-openfmb-ops-protobuf
 * Java - https://gitlab.com/openfmb/psm/ops/protobuf/java-openfmb-ops-protobuf
+* Kotlin - https://gitlab.com/openfmb/psm/ops/protobuf/kotlin-openfmb-ops-protobuf
 * Python - https://gitlab.com/openfmb/psm/ops/protobuf/python-openfmb-ops-protobuf
+* Ruby - https://gitlab.com/openfmb/psm/ops/protobuf/ruby-openfmb-ops-protobuf
 * Rust - https://gitlab.com/openfmb/psm/ops/protobuf/rust-openfmb-ops-protobuf
 * TypeScript - https://gitlab.com/openfmb/psm/ops/protobuf/typescript-openfmb-ops-protobuf
 
@@ -24,11 +27,12 @@ git clone https://gitlab.com/openfmb/psm/ops/protobuf/openfmb-ops-protobuf.git
 cd openfmb-ops-protobuf
 ```
 
-In order to generate the language-specific bindings for OpenFMB protocol buffer definitions, three Dockerfiles have been provided:
+In order to generate the language-specific bindings for OpenFMB protocol buffer definitions, four Dockerfiles have been provided:
 
 * `Dockerfile` (for most languages)
 * `Dockerfile.rust` (which is specific to Rust)
 * `Dockerfile.crystal` (which is specific to Crystal)
+* `Dockerfile.elixir` (which is specific to Elixir)
 
 Before continuing, install [Docker](https://docs.docker.com/install/) (or Docker alternative such as [Podman](https://podman.io)) according to your development platform of choice.
 
@@ -40,7 +44,10 @@ Using `Dockerfile` will generate protobuf language bindings for the following pr
 * C#
 * Go
 * Java
+* Kotlin
 * Python
+* Ruby
+* TypeScript
 
 Run the following commands:
 
@@ -62,7 +69,7 @@ docker build -t openfmb-generate-protos-rust:$(git branch --show-current) -f Doc
 docker run --user=$(id -u):$(id -g) --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos-rust:$(git branch --show-current)
 ```
 
-After running these commands, you will have a new `/rust` subfolder in the `gen` folder of the current directory.
+After running these commands, you will have a new `/rust-openfmb-ops-protobuf` subfolder in the `gen` folder of the current directory.
 
 ### Dockerfile.crystal
 
@@ -75,7 +82,21 @@ docker build -t openfmb-generate-protos-crystal:$(git branch --show-current) -f 
 docker run --user=$(id -u):$(id -g) --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos-crystal:$(git branch --show-current)
 ```
 
-After running these commands, you will have a new `/crystal` subfolder in the `gen` folder of the current directory.
+After running these commands, you will have a new `/crystal-openfmb-ops-protobuf` subfolder in the `gen` folder of the current directory.
+
+
+### Dockerfile.elixir
+
+Using `Dockerfile.elixir` will only generate protobuf language bindings for the [Elixir](https://elixir-lang.org/) programming language.
+
+Run the following commands:
+
+```
+docker build -t openfmb-generate-protos-elixir:$(git branch --show-current) -f Dockerfile.elixir .
+docker run --user=$(id -u):$(id -g) --rm -v $PWD/gen:/protobufs/gen openfmb-generate-protos-elixir:$(git branch --show-current)
+```
+
+After running these commands, you will have a new `/elixir-openfmb-ops-protobuf` subfolder in the `gen` folder of the current directory.
 
 
 ### Note about the above Dockerfiles
