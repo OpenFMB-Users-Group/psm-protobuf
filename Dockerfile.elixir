@@ -1,4 +1,4 @@
-FROM crystallang/crystal:1.8.1
+FROM elixir:1.14.4
 
 ENV PROTOBUF_VER=22.3
 
@@ -20,16 +20,21 @@ RUN wget https://github.com/protocolbuffers/protobuf/archive/refs/tags/v${PROTOB
     mkdir -p /protobufs/protobuf/ && \
     mv proto3_src/protobuf-${PROTOBUF_VER}/src /protobufs/protobuf/
 
-# Install the Crystal protobuf generator
-RUN git clone https://github.com/jeromegn/protobuf.cr.git && \
-    cd protobuf.cr && \
-    crystal build bin/protoc-gen-crystal.cr -o /usr/local/bin/protoc-gen-crystal
+# Install the Elixir protobuf generator
+RUN mkdir -p /elixir-protobuf && \
+    cd /elixir-protobuf && \
+    git clone https://github.com/elixir-protobuf/protobuf.git && \
+    cd protobuf && \
+    mix local.hex --force && \
+    mix escript.install hex protobuf --force && \
+    mv /root/.mix/escripts/protoc-gen-elixir /usr/local/bin/ && \
+    chmod +x /usr/local/bin/protoc-gen-elixir
 
 WORKDIR /protobufs
 
 #COPY protobuf/src protobuf/src/
 COPY proto/openfmb proto/openfmb/
-COPY generate-protos-crystal.sh .
-RUN chmod 755 generate-protos-crystal.sh
+COPY generate-protos-elixir.sh .
+RUN chmod 755 generate-protos-elixir.sh
 
-CMD ["/protobufs/generate-protos-crystal.sh"]
+CMD ["/protobufs/generate-protos-elixir.sh"]

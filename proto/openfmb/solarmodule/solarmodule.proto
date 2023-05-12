@@ -1,7 +1,7 @@
 syntax = "proto3";
 
-// OpenFMB Operational Model (61850-CIM) (v2.0.0).eap
-// Tuesday, April 27, 2021 7:07:08 PM UTC
+// OpenFMB Operational Model (61850-CIM) (v2.1.0).eapx
+// Monday, April 3, 2023 7:34:35 PM UTC
 
 package solarmodule;
 option go_package = "gitlab.com/openfmb/psm/ops/protobuf/go-openfmb-ops-protobuf/v2/openfmb/solarmodule";
@@ -13,38 +13,123 @@ import "uml.proto";
 import "google/protobuf/wrappers.proto";
 import "commonmodule/commonmodule.proto";
 
+// MISSING DOCUMENTATION!!!
+message SolarInverter
+{
+    // UML inherited base object
+    commonmodule.ConductingEquipment conductingEquipment = 1 [(uml.option_parent_message) = true];
+}
+
+// MISSING DOCUMENTATION!!!
+message SolarCapabilityConfiguration
+{
+    // UML inherited base object
+    commonmodule.SourceCapabilityConfiguration sourceCapabilityConfiguration = 1 [(uml.option_parent_message) = true];
+}
+
+// Generation capability
+message SolarCapabilityOverride
+{
+    // UML inherited base object
+    commonmodule.IdentifiedObject identifiedObject = 1 [(uml.option_parent_message) = true];
+    // MISSING DOCUMENTATION!!!
+    SolarCapabilityConfiguration solarCapabilityConfiguration = 2 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+}
+
+// Generation capability profile
+message SolarCapabilityOverrideProfile
+{
+    option (uml.option_openfmb_profile) = true;
+    // UML inherited base object
+    commonmodule.CapabilityMessageInfo capabilityMessageInfo = 1 [(uml.option_parent_message) = true];
+    // MISSING DOCUMENTATION!!!
+    SolarCapabilityOverride solarCapabilityOverride = 2 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    SolarInverter solarInverter = 3 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+}
+
+// MISSING DOCUMENTATION!!!
+message SolarCapabilityRatings
+{
+    // UML inherited base object
+    commonmodule.SourceCapabilityRatings sourceCapabilityRatings = 1 [(uml.option_parent_message) = true];
+}
+
+// Generation capability
+message SolarCapability
+{
+    // UML inherited base object
+    commonmodule.NameplateValue nameplateValue = 1 [(uml.option_parent_message) = true];
+    // MISSING DOCUMENTATION!!!
+    SolarCapabilityConfiguration solarCapabilityConfiguration = 2;
+    // MISSING DOCUMENTATION!!!
+    SolarCapabilityRatings solarCapabilityRatings = 3 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+}
+
+// Generation capability profile
+message SolarCapabilityProfile
+{
+    option (uml.option_openfmb_profile) = true;
+    // UML inherited base object
+    commonmodule.CapabilityMessageInfo capabilityMessageInfo = 1 [(uml.option_parent_message) = true];
+    // MISSING DOCUMENTATION!!!
+    SolarCapability solarCapability = 2 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    SolarInverter solarInverter = 3 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+}
+
 // Point definition (Point)
 message SolarPoint
 {
-    // Enable frequency set point
-    commonmodule.ControlSPC frequencySetPointEnabled = 1;
+    reserved 1,3,4,6,7,11,23;
     // Grid connect mode
     commonmodule.ENG_GridConnectModeKind mode = 2;
-    // Black start enable
-    google.protobuf.FloatValue pctHzDroop = 3;
-    // Black start enable
-    google.protobuf.FloatValue pctVDroop = 4;
     // Ramp rates
     commonmodule.RampRate rampRates = 5;
-    // Enable reactive power set point
-    commonmodule.ControlSPC reactivePwrSetPointEnabled = 6;
-    // Enable real power set point
-    commonmodule.ControlSPC realPwrSetPointEnabled = 7;
     // Reset device
     commonmodule.ControlSPC reset = 8;
-    // ESS state
+    // MISSING DOCUMENTATION!!!
     commonmodule.Optional_StateKind state = 9;
-    // Enable voltage set point
-    commonmodule.ControlSPC voltageSetPointEnabled = 10;
-    // X-axis value (Unix time).
-    commonmodule.ControlTimestamp startTime = 11 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    commonmodule.EnterServiceAPC enterServiceOperation = 12;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.HzWAPC hzWOperation = 13;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.LimitWAPC limitWOperation = 14;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.PFSPC pFOperation = 15;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.TmHzCSG tmHzTripOperation = 16;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.TmVoltCSG tmVoltTripOperation = 17;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.VarSPC vArOperation = 18;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.VoltVarCSG voltVarOperation = 19;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.VoltWCSG voltWOperation = 20;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.WVarCSG wVarOperation = 21;
+    // Black start enable
+    commonmodule.ControlSPC blackStartEnabled = 22;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.WSPC wOperation = 24;
+}
+
+// Curve shape setting (FC=SP) (CSG_SP)
+message SolarCurvePoint
+{
+    // The array with the points specifying a curve shape.
+    SolarPoint control = 1 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // Start time
+    commonmodule.ControlTimestamp startTime = 2 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
 }
 
 // Curve shape setting (FC=SP) (CSG_SP)
 message SolarCSG
 {
     // The array with the points specifying a curve shape.
-    repeated SolarPoint crvPts = 1 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    repeated SolarCurvePoint crvPts = 1 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
 }
 
 // OpenFMB specialization for control schedule using:  LN: Schedule   Name: FSCH
@@ -74,13 +159,6 @@ message SolarControl
     SolarControlFSCC solarControlFSCC = 3;
 }
 
-// MISSING DOCUMENTATION!!!
-message SolarInverter
-{
-    // UML inherited base object
-    commonmodule.ConductingEquipment conductingEquipment = 1 [(uml.option_parent_message) = true];
-}
-
 // Solar control profile
 message SolarControlProfile
 {
@@ -93,6 +171,39 @@ message SolarControlProfile
     SolarInverter solarInverter = 3 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
 }
 
+// OpenFMB specialization for cap bank discrete control:
+message SolarDiscreteControlPV
+{
+    // UML inherited base object
+    commonmodule.LogicalNodeForControl logicalNodeForControl = 1 [(uml.option_parent_message) = true];
+    // MISSING DOCUMENTATION!!!
+    SolarPoint control = 2;
+}
+
+// Cap bank discrete control
+message SolarDiscreteControl
+{
+    // UML inherited base object
+    commonmodule.ControlValue controlValue = 1 [(uml.option_parent_message) = true];
+    // MISSING DOCUMENTATION!!!
+    commonmodule.CheckConditions check = 2;
+    // MISSING DOCUMENTATION!!!
+    SolarDiscreteControlPV solarDiscreteControlPV = 3;
+}
+
+// Cap bank discrete control profile.  Instructs an end device (or an end device group) to perform
+// a specified action.
+message SolarDiscreteControlProfile
+{
+    option (uml.option_openfmb_profile) = true;
+    // UML inherited base object
+    commonmodule.ControlMessageInfo controlMessageInfo = 1 [(uml.option_parent_message) = true];
+    // MISSING DOCUMENTATION!!!
+    SolarDiscreteControl solarDiscreteControl = 2 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+    // MISSING DOCUMENTATION!!!
+    SolarInverter solarInverter = 3 [(uml.option_required_field) = true, (uml.option_multiplicity_min) = 1];
+}
+
 // Point definition (Point)
 message SolarPointStatus
 {
@@ -100,9 +211,9 @@ message SolarPointStatus
     commonmodule.StatusSPS frequencySetPointEnabled = 1;
     // Grid connect mode
     commonmodule.ENG_GridConnectModeKind mode = 2;
-    // Black start enable
+    // MISSING DOCUMENTATION!!!
     google.protobuf.FloatValue pctHzDroop = 3;
-    // Black start enable
+    // MISSING DOCUMENTATION!!!
     google.protobuf.FloatValue pctVDroop = 4;
     // Ramp rates
     commonmodule.RampRate rampRates = 5;
@@ -110,10 +221,34 @@ message SolarPointStatus
     commonmodule.StatusSPS reactivePwrSetPointEnabled = 6;
     // Enable real power set point
     commonmodule.StatusSPS realPwrSetPointEnabled = 7;
-    // ESS state
+    // MISSING DOCUMENTATION!!!
     commonmodule.Optional_StateKind state = 8;
     // Enable voltage set point
     commonmodule.StatusSPS voltageSetPointEnabled = 9;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.ControlSPC blackStartEnabled = 10;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.EnterServiceAPC enterServiceOperation = 11;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.HzWPoint hzWOperation = 12;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.LimitWAPC limitWOperation = 13;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.PFSPC pFOperation = 14;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.ControlSPC syncBackToGrid = 15;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.TmHzCSG tmHzTripOperation = 16;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.TmVoltCSG tmVoltTripOperation = 17;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.VarSPC vArOperation = 18;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.VoltVarCSG voltVarOperation = 19;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.VoltWCSG voltWOperation = 20;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.WVarCSG wVarOperation = 21;
 }
 
 // Specialized 61850 ZGEN class
@@ -129,6 +264,16 @@ message SolarEventAndStatusZGEN
     commonmodule.StatusSPS EmgStop = 4;
     // MISSING DOCUMENTATION!!!
     SolarPointStatus PointStatus = 5;
+    // DC Power On/Off Status; True = DC power on
+    commonmodule.Optional_AlrmKind Alrm = 6;
+    // Emergency stop
+    commonmodule.StatusSPS GnSynSt = 7;
+    // DC Power On/Off Status; True = DC power on
+    commonmodule.Optional_GridConnectionStateKind GridConnectionState = 8;
+    // DC Power On/Off Status; True = DC power on
+    google.protobuf.StringValue ManAlrmInfo = 9;
+    // MISSING DOCUMENTATION!!!
+    commonmodule.Optional_OperatingStateKind OperatingState = 10;
 }
 
 // Specialized 61850 ZGEN class

@@ -35,17 +35,21 @@ else
 fi
 
 #########################################################
-# Java
+# Java + Kotlin
 #########################################################
 
-OUTPUTPATH=gen/java-openfmb-ops-protobuf/openfmb/
-clear_output_dir $OUTPUTPATH
-OUTPUTPATH=gen/java-openfmb-ops-protobuf/
-if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --java_out=$OUTPUTPATH $SRC_PATHS ;
+OUTPUTPATH_JAVA=gen/java-openfmb-ops-protobuf/openfmb/
+clear_output_dir $OUTPUTPATH_JAVA
+OUTPUTPATH_JAVA=gen/java-openfmb-ops-protobuf/
+OUTPUTPATH_KOTLIN=gen/kotlin-openfmb-ops-protobuf/openfmb/
+clear_output_dir $OUTPUTPATH_KOTLIN
+OUTPUTPATH_KOTLIN=gen/kotlin-openfmb-ops-protobuf/
+if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --java_out=$OUTPUTPATH_JAVA --kotlin_out=$OUTPUTPATH_KOTLIN $SRC_PATHS ;
+
 then
-  echo "Generated Java protobuf files..."
+  echo "Generated Java + Kotlin protobuf files..."
 else
-  echo "Java generation failed!!!"
+  echo "Java + Kotlin generation failed!!!"
   exit 2
 fi
 
@@ -78,11 +82,25 @@ else
 fi
 
 #########################################################
+# Ruby
+#########################################################
+
+OUTPUTPATH=gen/ruby-openfmb-ops-protobuf/openfmb/
+clear_output_dir $OUTPUTPATH
+if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --ruby_out=$OUTPUTPATH $SRC_PATHS ;
+then
+  echo "Generated Ruby protobuf files..."
+else
+  echo "Ruby generation failed!!!"
+  exit 2
+fi
+
+#########################################################
 # TypeScript
 #########################################################
 OUTPUTPATH=gen/typescript-openfmb-ops-protobuf/openfmb/
 clear_output_dir $OUTPUTPATH
-if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --plugin=protoc-gen-grpc-web=./protoc-gen-grpc-web  --js_out=import_style=commonjs:$OUTPUTPATH --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:$OUTPUTPATH $SRC_PATHS ;
+if protoc --proto_path=$PROTOBUF_PATH --proto_path=$BASEPATH --plugin=protoc-gen-grpc-web=/protobufs/protoc-gen-grpc-web  --js_out=import_style=commonjs:$OUTPUTPATH --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:$OUTPUTPATH $SRC_PATHS ;
 then
   echo "Generated TypeScript protobuf files..."
 else
@@ -101,7 +119,7 @@ if ! [ -x "$(command -v go)" ]; then
 fi
 
 # Make sure that we have the protobuf types for Go
-if [ -n "$(find $GOPATH/pkg/mod/github.com/golang/ -name any.go)" ];
+if [ -n "$(find $GOPATH/pkg/mod/google.golang.org/ -name any.pb.go)" ];
 then
   echo "Protobuf types for Go installed..."
 else
