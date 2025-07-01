@@ -1,8 +1,8 @@
-FROM golang:1.20.3
+FROM golang:1.24.4
 
-ENV PROTOBUF_VER=22.3
-ENV GRPCWEB_VER=1.4.2
-ENV PROTOC_GEN_JS_VER=3.21.2
+ENV PROTOBUF_VER=31.1
+ENV GRPCWEB_VER=1.5.0
+ENV PROTOC_GEN_JS_VER=3.21.4
 
 # Install protobuf types for Go
 #RUN go get github.com/golang/protobuf/ptypes

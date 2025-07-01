@@ -1,6 +1,6 @@
-FROM elixir:1.14.4
+FROM elixir:1.18.4
 
-ENV PROTOBUF_VER=22.3
+ENV PROTOBUF_VER=31.1
 
 RUN apt-get update && apt-get -y install unzip wget
 
